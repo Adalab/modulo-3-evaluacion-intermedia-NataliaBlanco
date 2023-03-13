@@ -1,39 +1,91 @@
 import '../styles/App.css';
-
-import quotes from '../data/data.json';
+import '../styles/App.scss';
+import quotes from '../data/quotes.json';
 import { useState } from 'react';
 
 const App = () => {
- 
-  const [sencences, setSentences] = useState(quotes);
+  const [sentences, setSentences] = useState(quotes);
+  const [searchQ, setSearchQ] = useState('');
+  const [searchP, setSearchP] = useState('Todos');
+  const [add, setAdd] = useState('');
 
+  const renderFilteredQuotes = () => {
+    return sentences
+      .filter((sentence) => {
+        return sentence.quote
+          .toLocaleLowerCase()
+          .includes(searchQ.toLocaleLowerCase());
+      })
+      .filter((sentence) => {
+        if (searchP === 'Todos') {
+          return true;
+        } else {
+          return sentence.character === searchP;
+        }
+      })
+      .map((sentence, idx) => {
+        return (
+          <li className="quote_list" key={idx}>
+            <p className="quote_quote">
+              <label className="quote_label"></label>
+              {sentence.quote}
+            </p>
+            <span className="quote__person">--{sentence.character}</span>
+          </li>
+        );
+      });
+  };
 
- 
+  const handleInput = (ev) => {
+    ev.preventDefault();
+    setSearchQ(ev.target.value);
+  };
+
+  const handleSelect = (ev) => {
+    setSearchP(ev.target.value);
+  };
 
   // Retornamos todo el código HTML que queremos que React pinte en la página.
   return (
-    <div>
-      <h1>Generador de emails:</h1>
-      <form>
-        <label>
-          Escribe un email:
-          {/* En esta línea indicamos que cuando cambie el input se ejecute la función manejadora handleEmail. */}
+    <div className="page">
+      <header className="header">
+        <h1 className="header__title">Frases de Friends</h1>
+        <form>
+          <label>Filtrar por Frase</label>
           <input
-            className="form__input-text"
-            type="email"
-            name="name"
-            onChange={}
+            className="header__search"
+            autoComplete="off"
+            type="search"
+            name="search"
+            placeholder="Filtrar por quotes"
+            onInput={handleInput}
+            value={searchQ}
           />
-        </label>
-      </form>
-      {/* En esta línea usamos la constante email para pintar el HTML. */}
-      <p>Tu email es: {}.</p>
-      <p>
-        {/* En esta línea usamos la constante email para pintar la propiedad href del link. */}
-        {/* Estamos interpolando para conseguir que el valor de href sea algo como mailto:maria@gmail.com. */}
-        {/* También estamos usando la constante email para pintar el texto del link. */}
-        Pulsa en <a href={`mailto:${email}`}>{email}</a> para enviar un email.
-      </p>
+          <label>Filtrar por Personaje</label>
+          <select name="select" onChange={handleSelect} value={searchP}>
+            <option value="Todos">Todos</option>
+            <option value="Ross">Ross</option>
+            <option value="Monica">Monica</option>
+            <option value="Joey">Joey</option>
+            <option value="Phoebe">Phoebe</option>
+            <option value="Chandler">Chandler</option>
+            <option value="Rachel">Rachel</option>
+          </select>
+        </form>
+      </header>
+      <main>
+        <ul className="quotes">{renderFilteredQuotes(quotes)}</ul>
+        <form>
+          <h2>Añade otra frase</h2>
+          <input
+            className="header__search"
+            autoComplete="off"
+            type="search"
+            name="search"
+            placeholder="Filtrar por quotes"
+          ></input>
+        </form>
+      </main>
     </div>
   );
 };
