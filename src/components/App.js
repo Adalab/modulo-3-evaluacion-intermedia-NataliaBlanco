@@ -77,7 +77,7 @@ const App = () => {
       <header className="header">
         <h1 className="header__title">Frases de Friends</h1>
         <form>
-          <label>Filtrar por Frase</label>
+          <label className="header__label">Filtrar por Frase</label>
           <input
             className="header__search"
             autoComplete="off"
@@ -87,7 +87,7 @@ const App = () => {
             onChange={handleInput}
             value={searchQ}
           />
-          <label>Filtrar por Personaje</label>
+          <label className="header__label">Filtrar por Personaje</label>
           <select name="select" onChange={handleSelect} value={searchP}>
             <option value="Todos">Todos</option>
             <option value="Ross">Ross</option>
@@ -102,29 +102,30 @@ const App = () => {
       <main>
         <ul className="quotes">{renderFilteredQuotes()}</ul>
         <footer className="footer">
-          <form>
-            <label>Añade otra frase</label>
+          <h2 className="footer_title">Añadir una nueva frase</h2>
+          <form className="footer_form">
+            <label className="footer_form_label">Frase</label>
             <input
-              className="footer__search"
+              className="footer_form_search"
               type="text"
-              id="search_quote"
-              name="search_quote"
+              id="quote"
+              name="quote"
               placeholder="Añadir otra frase"
               onChange={handleNewChar}
               value={addNew.quote}
             ></input>
-            <label>Añade otro personaje</label>
+            <label className="footer_form_label">Personaje</label>
             <input
-              className="footer__search"
+              className="footer_form_search"
               type="text"
-              id="search_character"
-              name="search_character"
+              id="character"
+              name="character"
               placeholder="Añadir otro personaje"
               onChange={handleNewChar}
               value={addNew.character}
             ></input>
             <input
-              className="Add-in__btn"
+              className="footer_form_btn"
               type="submit"
               value="Añadir"
               name="button_add"

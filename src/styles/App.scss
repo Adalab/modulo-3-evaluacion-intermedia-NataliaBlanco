@@ -1,9 +1,52 @@
-.quote_list {
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  font-size: 16px;
-  list-style: none;
-}
-.quote__person {
-  color: red;
-  font-style: italic;
+.page {
+  background-color: grey;
+  .header {
+    &__title {
+      color: greenyellow;
+    }
+
+    &__label {
+      padding: 10px;
+      color: greenyellow;
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS',
+        sans-serif;
+      font-weight: bold;
+    }
+  }
+
+  .quote_list {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS',
+      sans-serif;
+    font-size: 16px;
+    list-style: none;
+  }
+  .quote__person {
+    color: greenyellow;
+    font-style: italic;
+    font-size: 20px;
+  }
+  .footer {
+    height: 20vh;
+    &_title {
+      color: greenyellow;
+    }
+    &_form {
+      width: 200px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      &_label {
+        padding: 10px;
+        color: greenyellow;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS',
+          sans-serif;
+        font-weight: bold;
+        &_btn {
+          padding: 10px;
+        }
+      }
+    }
+  }
 }
