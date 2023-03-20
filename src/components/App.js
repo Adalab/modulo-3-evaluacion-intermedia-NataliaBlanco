@@ -1,13 +1,25 @@
-import '../styles/App.css';
 import '../styles/App.scss';
-import quotes from '../data/quotes.json';
-import { useState } from 'react';
+/* import quotes from '../data/quotes.json'; */
+import { useEffect, useState } from 'react';
 
 const App = () => {
-  const [sentences, setSentences] = useState(quotes);
+  const [sentences, setSentences] = useState([]);
   const [searchQ, setSearchQ] = useState('');
   const [searchP, setSearchP] = useState('Todos');
-  const [add, setAdd] = useState('');
+  const [addNew, setAddNew] = useState({
+    quote: '',
+    character: '',
+  });
+
+  useEffect(() => {
+    fetch(
+      'https://beta.adalab.es/curso-intensivo-fullstack-recursos/apis/quotes-friends-tv-v1/quotes.json'
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setSentences(data);
+      });
+  }, []);
 
   const renderFilteredQuotes = () => {
     return sentences
@@ -45,6 +57,20 @@ const App = () => {
     setSearchP(ev.target.value);
   };
 
+  const handleNewChar = (ev) => {
+    const idTarget = ev.target.id;
+    setAddNew({ ...addNew, [idTarget]: ev.target.value });
+  };
+
+  const handleClick = (ev) => {
+    ev.preventDefault();
+    setSentences([...sentences, addNew]);
+    setAddNew({
+      quote: '',
+      character: '',
+    });
+  };
+
   // Retornamos todo el código HTML que queremos que React pinte en la página.
   return (
     <div className="page">
@@ -58,7 +84,7 @@ const App = () => {
             type="search"
             name="search"
             placeholder="Filtrar por quotes"
-            onInput={handleInput}
+            onChange={handleInput}
             value={searchQ}
           />
           <label>Filtrar por Personaje</label>
@@ -74,17 +100,39 @@ const App = () => {
         </form>
       </header>
       <main>
-        <ul className="quotes">{renderFilteredQuotes(quotes)}</ul>
-        <form>
-          <h2>Añade otra frase</h2>
-          <input
-            className="header__search"
-            autoComplete="off"
-            type="search"
-            name="search"
-            placeholder="Filtrar por quotes"
-          ></input>
-        </form>
+        <ul className="quotes">{renderFilteredQuotes()}</ul>
+        <footer className="footer">
+          <form>
+            <label>Añade otra frase</label>
+            <input
+              className="footer__search"
+              type="text"
+              id="search_quote"
+              name="search_quote"
+              placeholder="Añadir otra frase"
+              onChange={handleNewChar}
+              value={addNew.quote}
+            ></input>
+            <label>Añade otro personaje</label>
+            <input
+              className="footer__search"
+              type="text"
+              id="search_character"
+              name="search_character"
+              placeholder="Añadir otro personaje"
+              onChange={handleNewChar}
+              value={addNew.character}
+            ></input>
+            <input
+              className="Add-in__btn"
+              type="submit"
+              value="Añadir"
+              name="button_add"
+              id="button_add"
+              onClick={handleClick}
+            ></input>
+          </form>
+        </footer>
       </main>
     </div>
   );
